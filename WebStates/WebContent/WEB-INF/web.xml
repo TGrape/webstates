@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+  <servlet>
+    <servlet-name>States</servlet-name>
+    <servlet-class>com.tgrape.servlet.StatesAttention</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>States</servlet-name>
+    <url-pattern>/states</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>Verifies</servlet-name>
+    <servlet-class>com.tgrape.servlet.StatesVerify</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Verifies</servlet-name>
+    <url-pattern>/verifies</url-pattern>
+  </servlet-mapping>
+  
+  
+   <servlet>
+    <servlet-name>QuotesLife</servlet-name>
+    <servlet-class>com.tgrape.servlet.QuotesLife</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>QuotesLife</servlet-name>
+    <url-pattern>/addQuotesLife</url-pattern>
+  </servlet-mapping>
+  
+  
+  <servlet>
+    <servlet-name>QuotesInvest</servlet-name>
+    <servlet-class>com.tgrape.servlet.QuotesInvest</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>QuotesInvest</servlet-name>
+    <url-pattern>/addQuotesInvest</url-pattern>
+  </servlet-mapping>
+  
+  
+  <servlet>
+    <servlet-name>QuotesInvestAll</servlet-name>
+    <servlet-class>com.tgrape.servlet.QuotesInvestAll</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>QuotesInvestAll</servlet-name>
+    <url-pattern>/quotesInvestAll</url-pattern>
+  </servlet-mapping>
+</web-app>

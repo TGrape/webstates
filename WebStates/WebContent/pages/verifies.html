@@ -1,0 +1,318 @@
+<!DOCTYPE html ">
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>选股验证</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="../vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="../vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+<style type="text/css">
+.demo a{font-size:14px;color:#333;}
+.demo a:link { text-decoration: none;color: blue}
+.demo a:active { text-decoration:blink}
+.demo a:hover { text-decoration:underline;color: red} 
+.demo a:visited { text-decoration: none;color: green}
+</style>
+</head>
+
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">妖股集中营</a>
+            </div>
+            <!-- /.navbar-header -->
+
+           
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="搜索...">
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+                        <li>
+                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> 主页</a>
+                        </li>
+                        
+                        <li>
+                            <a href="tables.html"><i class="fa fa-table fa-fw"></i> 今日关注</a>
+                        </li>
+                        <li>
+                            <a href="verifies.html"><i class="fa fa-table fa-fw"></i> 选股验证</a>
+                        </li>
+                        <!--  
+                        <li>
+                            <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="panels-wells.html">Panels and Wells</a>
+                                </li>
+                                <li>
+                                    <a href="buttons.html">Buttons</a>
+                                </li>
+                                <li>
+                                    <a href="notifications.html">Notifications</a>
+                                </li>
+                                <li>
+                                    <a href="typography.html">Typography</a>
+                                </li>
+                                <li>
+                                    <a href="icons.html"> Icons</a>
+                                </li>
+                                <li>
+                                    <a href="grid.html">Grid</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level 
+                        </li>
+                        -->
+                       
+                        
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper">
+        
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header" id="header">选股验证</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>            
+                      
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                    <div class="panel-heading" id="percent">
+                          	选股策略比例
+                        </div>
+                        <div class="panel-heading" id="quotes_life">
+                          	人生格言： 人生永无止境
+                        </div>
+                        <div class="panel-heading" id="quotes_invest">
+                          	 投资格言： 投资永无止境
+                        </div>
+                        
+                        <!-- /.panel-heading -->
+                        <div class="panel-body" id = "table_data">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>选股策略简称</th>
+                                        <th>选股策略名称</th>
+                                        <th>股票代码</th>
+                                        <th>股票名称</th>
+                                        <th>推荐日期</th>
+                                        <th>盈利率</th>
+                                        <th>K线</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table_data_body">
+                                	
+                                
+                                    
+                                </tbody>
+                            </table>
+                            <!-- /.table-responsive 
+                            <div class="well">
+                                <h4>DataTables Usage Information</h4>
+                                <p>DataTables is a very flexible, advanced tables plugin for jQuery. In SB Admin, we are using a specialized version of DataTables built for Bootstrap 3. We have also customized the table headings to use Font Awesome icons in place of images. For complete documentation on DataTables, visit their website at <a target="_blank" href="https://datatables.net/">https://datatables.net/</a>.</p>
+                                <a class="btn btn-default btn-lg btn-block" target="_blank" href="https://datatables.net/">View DataTables Documentation</a>
+                            </div>
+                            -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                    
+                    
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+             
+         <button type="button" class="btn btn-danger"  onclick="getData()" id="refresh">点击验证</button>   
+        </div>
+        
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+	
+	
+    <!-- jQuery -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../dist/js/sb-admin-2.js"></script>
+	<script type="text/javascript" src="../js/preview.js"></script>
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    
+  
+    <script> 
+	  function getData()
+	  {	   	  
+		$.ajaxSettings.async = false; 
+		var table = '<thead>'+
+					        '<tr>'+
+					        '<th>选股策略简称</th>'+
+					        '<th>选股策略名称</th>'+
+					        '<th>股票代码</th>'+
+					        '<th>股票名称</th>'+
+					        '<th>盈利率</th>'+
+					        '<th>推荐日期</th>'+
+					        '<th>K线</th>'+
+					    '</tr>'+
+					'</thead>'+
+					'<tbody id="table_data_body">';
+	    $.getJSON("http://localhost:8080/WebStates/verifies?days=7", function(data) {  
+	    	var header = "选股验证  "+data.countok+" / "+data.count ;
+	    	$("#header").html(header);
+	    	var percent = "选股策略比例: "+"  6LY "+data.ly6countok+"/"+data.ly6count +
+			" - QW "+data.qwcountok+"/"+data.qwcount +
+			" - QSSZ "+data.qsszcountok+"/"+data.qsszcount +
+			" - TP18 "+data.tp18countok+"/"+data.tp18count +
+			" - TP54 "+data.tp54countok+"/"+data.tp54count +
+			" - BuyPnt "+data.bpcountok+"/"+data.bpcount ;
+	    	$("#percent").html(percent);
+	        $("#quotes_life").html("人生格言 ： "+data.quotes_life);
+	        $("#quotes_invest").html("投资格言 ： "+data.quotes_invest);
+	        $.each(data.verifieslist, function(i, item) {
+	        	
+	        	if(i%2==0){
+	        		table += '<tr class="odd gradeX">' ;      				
+	        	 	
+	        	}else{
+	        		table += '<tr class="odd gradeC">' ;
+	        	}
+	        	table += '<td>'+item.stgcode+'</td>';
+	        	table += '<td>'+item.stgname+'</td>';
+	        	table += '<td>'+item.stkcode+'</td>';
+	        	table += '<td class="center">'+item.stkname+'</td>';
+	        	table += '<td class="center">'+item.percent+'</td>';
+	        	table += '<td class="center">'+item.time+'</td>';            
+	        	table += '<td class="center"><div class="demo">' 
+	        							  + '<a  href="'+item.klineurl+item.klinefile+'" target="_blank">查看K线</a>'
+								          + '</div> </td>';
+	        });
+	        //add other stock
+			$.each(data.verifieslistall, function(i, item) {
+	        	
+	        	if(i%2==0){
+	        		table += '<tr class="odd gradeX">' ;      				
+	        	 	
+	        	}else{
+	        		table += '<tr class="odd gradeC">' ;
+	        	}
+	        	table += '<td>'+item.stgcode+'</td>';
+	        	table += '<td>'+item.stgname+'</td>';
+	        	table += '<td>'+item.stkcode+'</td>';
+	        	table += '<td class="center">'+item.stkname+'</td>';
+	        	table += '<td class="center">'+item.percent+'</td>';
+	        	table += '<td class="center">'+item.time+'</td>';            
+	        	table += '<td class="center"><div class="demo">' 
+	        							  + '<a  href="'+item.klineurl+item.klinefile+'" target="_blank">查看K线</a>'
+								          + '</div> </td>';
+	        });
+	    });
+	    table += '</tbody>';
+	    $('#dataTables-example').html(table);
+	    $('#dataTables-example').DataTable({
+	    	"autoWidth": true,//自适应宽度	    
+	    	 "jQueryUI": true,
+	         responsive: true,
+	         "processing": true,
+	         "bSort": false, //是否支持排序功能
+	         "oLanguage": {
+	             "sLengthMenu": "每页显示 _MENU_ 条记录",
+	             "sZeroRecords": "对不起，查询不到任何相关数据",
+	             "sInfo": "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录",
+	             "sInfoEmtpy": "找不到相关数据",
+	             "sInfoFiltered": "数据表中共为 _MAX_ 条记录)",
+	             "sProcessing": "正在加载中...",
+	             "sSearch": "搜索",
+	             "sUrl": "", //多语言配置文件，可将oLanguage的设置放在一个txt文件中，例：Javascript/datatable/dtCH.txt
+	             "oPaginate": {
+	                 "sFirst": "第一页",
+	                 "sPrevious": " 上一页 ",
+	                 "sNext": " 下一页 ",
+	                 "sLast": " 最后一页 "
+	             }
+	         }
+        });
+	    
+	    $("#refresh").attr("disabled", true); 
+	   
+	  }
+	 </script>
+
+</body>
+
+</html>
