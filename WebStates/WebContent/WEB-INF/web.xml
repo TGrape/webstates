@@ -52,4 +52,27 @@
     <servlet-name>QuotesInvestAll</servlet-name>
     <url-pattern>/quotesInvestAll</url-pattern>
   </servlet-mapping>
+  
+  
+  <servlet>
+    <servlet-name>hit</servlet-name>
+    <servlet-class>com.tgrape.servlet.Hit</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>hit</servlet-name>
+    <url-pattern>/hit</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>nohit</servlet-name>
+    <servlet-class>com.tgrape.servlet.NoHit</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>nohit</servlet-name>
+    <url-pattern>/nohit</url-pattern>
+  </servlet-mapping>
+  
+  
 </web-app>

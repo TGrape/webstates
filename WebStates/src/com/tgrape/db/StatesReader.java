@@ -35,17 +35,17 @@ public class StatesReader {
 			stmt = conn.createStatement();
 			String sql = "";
 			if(date.equalsIgnoreCase("today")){	
-				sql = "select T_STG_REC.stgcode stgcode,ZD_STRATEGE.NAME stgname,T_STG_REC.stkcode stkcode,stkname,to_char(turnover3) turnover3,to_char(turnover6) turnover6,to_char(T_STG_REC.CREATE_DATE,'YYYY-MM-DD') time from T_STG_REC,T_STOCK, ZD_STRATEGE "+
-							" where T_STG_REC.CREATE_DATE>sysdate- interval '7' hour " + 
+				sql = "select T_STG_REC.stgcode stgcode,ZD_STRATEGE.NAME stgname,T_STG_REC.stkcode stkcode,stkname,hit,to_char(turnover3) turnover3,to_char(turnover6) turnover6,to_char(T_STG_REC.CREATE_DATE,'YYYY-MM-DD') time from T_STG_REC,T_STOCK, ZD_STRATEGE "+
+							" where T_STG_REC.CREATE_DATE>sysdate- interval '20' hour " + 
 							" and ZD_STRATEGE.scode=T_STG_REC.STGCODE "+
 						    " and T_STG_REC.stkcode=T_STOCK.stkcode "+
 //						    " and turnover3>3 and turnover6>6 "+
-						    " and T_STG_REC.STKCODE not in (  select T_STG_REC.STKCODE from T_STG_REC   "+
-							"						  where CREATE_DATE>(select max(T_STG_REC.CREATE_DATE) from T_STG_REC)- interval '3' day  "+
-							"								and CREATE_DATE<(select max(T_STG_REC.CREATE_DATE) from T_STG_REC)- interval '7' hour)  "+			
-							" order by T_STG_REC.stgcode,turnover3 desc,turnover6 desc,T_STG_REC.CREATE_DATE desc";
+//						    " and T_STG_REC.STKCODE not in (  select T_STG_REC.STKCODE from T_STG_REC   "+
+//							"						  where hit = 0 and CREATE_DATE>(select max(T_STG_REC.CREATE_DATE) from T_STG_REC)- interval '3' day  "+
+//							"								and CREATE_DATE<(select max(T_STG_REC.CREATE_DATE) from T_STG_REC)- interval '20' hour)  "+			
+							" order by T_STG_REC.stkcode,turnover3 desc,turnover6 desc,T_STG_REC.CREATE_DATE desc";
 			}else{
-				sql = "select T_STG_REC.stgcode stgcode,ZD_STRATEGE.NAME stgname,T_STG_REC.stkcode stkcode,stkname,to_char(turnover3) turnover3,to_char(turnover6) turnover6,to_char(T_STG_REC.CREATE_DATE,'YYYY-MM-DD') time from T_STG_REC,T_STOCK, ZD_STRATEGE "+
+				sql = "select T_STG_REC.stgcode stgcode,ZD_STRATEGE.NAME stgname,T_STG_REC.stkcode stkcode,stkname,hit,to_char(turnover3) turnover3,to_char(turnover6) turnover6,to_char(T_STG_REC.CREATE_DATE,'YYYY-MM-DD') time from T_STG_REC,T_STOCK, ZD_STRATEGE "+
 						" where T_STG_REC.CREATE_DATE=to_date('"+date+"','YYYY-MM-DD')" + 
 						" and ZD_STRATEGE.scode=T_STG_REC.STGCODE "+
 					    " and T_STG_REC.stkcode=T_STOCK.stkcode "+
@@ -53,7 +53,7 @@ public class StatesReader {
 					    " and T_STG_REC.STKCODE not in (  select T_STG_REC.STKCODE from T_STG_REC   "+
 						"						  where CREATE_DATE>(select max(T_STG_REC.CREATE_DATE) from T_STG_REC)- interval '3' day  "+
 						"								and CREATE_DATE<(select max(T_STG_REC.CREATE_DATE) from T_STG_REC)- interval '7' hour)  "+			
-						" order by T_STG_REC.stgcode,turnover3 desc,turnover6 desc,T_STG_REC.CREATE_DATE desc";
+						" order by T_STG_REC.stkcode,turnover3 desc,turnover6 desc,T_STG_REC.CREATE_DATE desc";
 			}
 			ResultSet rs = stmt.executeQuery(sql);
 			States states = null;
@@ -63,6 +63,7 @@ public class StatesReader {
 				states.setStgname(rs.getString("stgname"));
 				states.setStkcode(rs.getString("stkcode"));
 				states.setStkname(rs.getString("stkname"));
+				states.setHit(""+rs.getInt("hit"));
 				states.setTime(rs.getString("time"));
 				states.setTurnover3(rs.getString("turnover3"));
 				states.setTurnover6(rs.getString("turnover6"));
@@ -153,8 +154,7 @@ public class StatesReader {
 				v.setKlinefile(klinefile);
 				vlistall.add(v);				
 			}
-			vt.setCount(vlistall.size());
-			vt.setVerifieslistall(vlistall);
+			
 			rs.close();
 			/**
 			 select P_START start from 
@@ -164,6 +164,8 @@ public class StatesReader {
 			select max(P_END) max from t_market_day where cur_date>sysdate - interval '6' day and stkcode='000001';
 			 */
 			List<Verifies> vlist = new ArrayList<Verifies>();
+			List<Verifies> novlist = new ArrayList<Verifies>();
+
 			int qwcount = 0;
 			int qsszcount = 0;
 			int tp18count = 0;
@@ -204,6 +206,7 @@ public class StatesReader {
 					rs.close();
 				}else{
 					rs.close();	
+					novlist.add(v);
 					continue;
 				}
 				
@@ -215,6 +218,7 @@ public class StatesReader {
 					rs.close();	
 				}else{
 					rs.close();	
+					novlist.add(v);
 					continue;
 				}					
 				if(max > 0 && start>0) {
@@ -225,7 +229,7 @@ public class StatesReader {
 					}
 					v.setPercent(p);
 					if(percent>=3){
-						vlist.add(v);
+						vlist.add(v);						
 						if(stg.equalsIgnoreCase("qw")){
 							qwcountok ++;
 						}else if(stg.equalsIgnoreCase("qssz")){
@@ -240,13 +244,22 @@ public class StatesReader {
 							tp54countok ++;
 						}
 					}
+				}else{
+					novlist.add(v);
 				}
 				
 							
 			}
-			for(int i=0;i<vlist.size();i++){
-				vlistall.remove(vlist.get(i));
-			}
+//			for(int i=0;i<vlist.size();i++){
+//				vlistall.remove(vlist.get(i));
+//			}
+//			for(int i=0;i<novlist.size();i++){
+//				vlistall.remove(novlist.get(i));
+//			}
+			
+			vt.setVerifieslistall(vlistall);			
+			vt.setCount(vlistall.size()-novlist.size()-vlist.size());
+			
 			vt.setVerifieslist(vlist);
 			vt.setCountok(vlist.size());
 			
@@ -293,4 +306,27 @@ public class StatesReader {
         
         return vt;
 	}
+	public static void setHit(String stkcode, boolean hit) {
+		try {
+        	try {
+				Class.forName("oracle.jdbc.driver.OracleDriver");
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			conn = DriverManager.getConnection(url, user, password);
+			conn.setAutoCommit(true);
+			stmt = conn.createStatement();
+			String sql = "update t_stg_rec set hit = 1 where stkcode='"+stkcode+"' and create_date > sysdate - interval '8' hour ";
+			if(!hit)
+				sql = "update t_stg_rec set hit = 0 where stkcode='"+stkcode+"' and create_date > sysdate - interval '8' hour ";
+			stmt.execute(sql);
+			stmt.close();
+			conn.close();
+			stmt = null;
+			conn = null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

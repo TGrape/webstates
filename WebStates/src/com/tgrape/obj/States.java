@@ -11,8 +11,11 @@ public class States {
 	private String time;
 	private String klineurl = "http://image.sinajs.cn/";
 	private String klinefile = "newchart/daily/n/sh000001.gif";
+	private String hit = "0";
 	
-	
+	public String getHit(){
+		return hit;
+	}
 	public String getKlineurl() {
 		return klineurl;
 	}
@@ -66,5 +69,8 @@ public class States {
 	}
 	public void setTime(String time) {
 		this.time = time;
+	}
+	public void setHit(String hit) {
+		this.hit  = hit;
 	}
 }

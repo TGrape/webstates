@@ -158,6 +158,8 @@
                                         <th>3日换手率</th>
                                         <th>6日换手率</th>
                                         <th>选股日期</th>
+                                        <th>K线</th>
+                                        <th>操作</th>
                                     </tr>
                                 </thead>
                                 <tbody id="table_data_body">
@@ -213,8 +215,10 @@
     
   
     <script> 
+      
 	  function getData()
 	  {	   	  
+		 // alert("refresh");
 		$.ajaxSettings.async = false; 
 		var table = '<thead>'+
 					        '<tr>'+
@@ -222,10 +226,12 @@
 					        '<th>选股策略名称</th>'+
 					        '<th>股票代码</th>'+
 					        '<th>股票名称</th>'+
+					        '<th>选中</th>'+
 					        '<th>3日换手率</th>'+
 					        '<th>6日换手率</th>'+
 					        '<th>选股日期</th>'+
 					        '<th>K线</th>'+
+					        '<th>操作</th>'+
 					    '</tr>'+
 					'</thead>'+
 					'<tbody id="table_data_body">';
@@ -234,7 +240,7 @@
 	        $("#quotes_life").html("人生格言 ： "+data.quotes_life);
 	        $("#quotes_invest").html("投资格言 ： "+data.quotes_invest);
 	        $.each(data.stateslist, function(i, item) {
-	        	
+	        	var v = ''+item.stkcode;
 	        	if(i%2==0){
 	        		table += '<tr class="odd gradeX">' ;      				
 	        	 	
@@ -243,14 +249,17 @@
 	        	}
 	        	table += '<td>'+item.stgcode+'</td>';
 	        	table += '<td>'+item.stgname+'</td>';
-	        	table += '<td>'+item.stkcode+'</td>';
+	        	table += '<td>'+v+'</td>';
 	        	table += '<td class="center">'+item.stkname+'</td>';
+	        	table += '<td class="center">'+item.hit+'</td>';
 	        	table += '<td class="center">'+item.turnover3+'</td>';
 	        	table += '<td class="center">'+item.turnover6+'</td>';
 	        	table += '<td class="center">'+item.time+'</td>';            
 	        	table += '<td class="center"><div class="demo">' 
 	        							  + '<a  href="'+item.klineurl+item.klinefile+'" target="_blank">查看K线</a>'
 								          + '</div> </td>';
+				table += '<td class="center"><div class="demo"> <a  href="javascript:void(0)" onclick="hit(\''+v+'\')">选中</a>|<a href="javascript:void(0)" onclick="nohit(\''+v+'\')">反选</a></div></td>';
+				//alert('<td class="center"><div class="demo"> <a  href="javascript:void(0)" onclick="hit(\''+v+'\')">选中</a>|<a href="javascript:void(0)" onclick="nohit(\''+v+'\')">反选</a></div></td>');
 	        });
 	    });
 	    table += '</tbody>';
@@ -281,6 +290,29 @@
 	    
 	    $("#refresh").attr("disabled", true); 
 	   
+	  }
+	  
+	  
+	  
+	 </script>
+	 
+	 <script>
+	 function hit(stkcode)
+	  {	   
+		// alert(stkcode);
+		$.ajaxSettings.async = false; 
+		$.getJSON("http://localhost:8080/WebStates/hit?stkcode="+stkcode,function(data) {    	    
+	    	alert(data);
+		});
+	  }
+	 
+     function nohit(stkcode)
+	  {	   	  
+    	// alert(stkcode);
+		$.ajaxSettings.async = false; 
+		$.getJSON("http://localhost:8080/WebStates/nohit?stkcode="+stkcode,function(data) {    	    
+	    	alert(data);
+		});
 	  }
 	 </script>
 
