@@ -138,6 +138,7 @@ public class StatesReader {
 								" from t_stg_rec,t_stock,zd_stratege " +
 								" where t_stg_rec.create_date>sysdate - interval '"+days+"' day "+ 
 								"	    and t_stg_rec.create_date<sysdate- interval '1' day " +
+								" 		and t_stg_rec.hit = 1" +
 								" 		and t_stg_rec.stgcode = zd_stratege.scode" +
 								" 		and t_stg_rec.stkcode = t_stock.stkcode ) " +
 								" order by time desc ";
@@ -183,19 +184,7 @@ public class StatesReader {
 				Verifies v = vlistall.get(i);
 				String stkcode = v.getStkcode();
 				String stg = v.getStgcode();
-				if(stg.equalsIgnoreCase("qw")){
-					qwcount ++;
-				}else if(stg.equalsIgnoreCase("qssz")){
-					qsszcount ++;
-				}else if(stg.equalsIgnoreCase("buypnt")){
-					bpcount ++;
-				}else if(stg.equalsIgnoreCase("6ly")){
-					ly6count ++;
-				}else if(stg.equalsIgnoreCase("tp18")){
-					tp18count ++;
-				}else if(stg.equalsIgnoreCase("tp54")){
-					tp54count ++;
-				}
+				
 				sql =  "select P_START  "
 						+ " from  (select * from t_market_day where cur_date>to_date('"+v.getTime()+"','YYYY-MM-DD') and stkcode='"+stkcode+"' order by cur_date ) " 
 						+ " where rownum<2  ";
@@ -210,11 +199,20 @@ public class StatesReader {
 					continue;
 				}
 				
-				sql = " select max(P_END) max from t_market_day where cur_date>to_date('"+v.getTime()+"','YYYY-MM-DD') + interval '1' day and stkcode='"+stkcode+"' ";
+				sql = " select max(P_END) maxE, max(P_START) maxS,min(P_LOW) low,max(P_HIGH) high from t_market_day where cur_date>to_date('"+v.getTime()+"','YYYY-MM-DD') + interval '1' day and stkcode='"+stkcode+"' ";
 				rs = stmt.executeQuery(sql);					
 				float max = 0;
+				float low = 10000;
+				float high = 0;
 				if(rs.next()){
-					max = rs.getFloat("max");
+					if(rs.getFloat("maxE")>max)
+						max = rs.getFloat("maxE");
+					if(rs.getFloat("maxS")>max)
+						max = rs.getFloat("maxS");
+					if(rs.getFloat("low")<low)
+						low = rs.getFloat("low");
+					if(rs.getFloat("high")>high)
+						high = rs.getFloat("high");
 					rs.close();	
 				}else{
 					rs.close();	
@@ -222,12 +220,37 @@ public class StatesReader {
 					continue;
 				}					
 				if(max > 0 && start>0) {
+					if(stg.equalsIgnoreCase("qw")){
+						qwcount ++;
+					}else if(stg.equalsIgnoreCase("qssz")){
+						qsszcount ++;
+					}else if(stg.equalsIgnoreCase("buypnt")){
+						bpcount ++;
+					}else if(stg.equalsIgnoreCase("6ly")){
+						ly6count ++;
+					}else if(stg.equalsIgnoreCase("tp18")){
+						tp18count ++;
+					}else if(stg.equalsIgnoreCase("tp54")){
+						tp54count ++;
+					}
 					Float percent = (max-start)/start * 100;
 					String p = percent.toString();
 					if(p.contains(".")){
 						p = p.substring(0,p.indexOf(".")+1);
 					}
 					v.setPercent(p);
+					Float percentMinus = (low-start)/start * 100;
+					String pm = percentMinus.toString();
+					if(pm.contains(".")){
+						pm = pm.substring(0,p.indexOf(".")+1);
+					}					
+					v.setPercentMinus(pm);
+					Float percentMax = (high-start)/start * 100;
+					String pmx = percentMax.toString();
+					if(pmx.contains(".")){
+						pmx = pmx.substring(0,p.indexOf(".")+1);
+					}					
+					v.setPercentMax(pmx);
 					if(percent>=3){
 						vlist.add(v);						
 						if(stg.equalsIgnoreCase("qw")){
@@ -258,7 +281,7 @@ public class StatesReader {
 //			}
 			
 			vt.setVerifieslistall(vlistall);			
-			vt.setCount(vlistall.size()-novlist.size()-vlist.size());
+			vt.setCount(vlistall.size()-novlist.size());
 			
 			vt.setVerifieslist(vlist);
 			vt.setCountok(vlist.size());

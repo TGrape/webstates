@@ -10,7 +10,9 @@ public class Verifies {
 
 	private String klineurl = "http://image.sinajs.cn/";
 	private String klinefile = "newchart/daily/n/sh000001.gif";
-	private String percent;
+	private String percent ;
+	private String percentMinus ;
+	private String percentMax;
 	
 	public String getTime() {
 		return time;
@@ -61,5 +63,17 @@ public class Verifies {
 	}
 	public String getPercent() {
 		return this.percent;
+	}
+	public String getPercentMinus() {
+		return percentMinus;
+	}
+	public void setPercentMinus(String percentMinus) {
+		this.percentMinus = percentMinus;
+	}
+	public void setPercentMax(String pmx) {
+		this.percentMax = pmx;
+	}
+	public String getPercentMax() {
+		return this.percentMax;
 	}
 }

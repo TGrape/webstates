@@ -160,7 +160,8 @@
                                         <th>股票代码</th>
                                         <th>股票名称</th>
                                         <th>推荐日期</th>
-                                        <th>盈利率</th>
+                                        <th>可盈利率</th>
+                                        <th>最大损失</th>
                                         <th>K线</th>
                                     </tr>
                                 </thead>
@@ -226,7 +227,9 @@
 					        '<th>选股策略名称</th>'+
 					        '<th>股票代码</th>'+
 					        '<th>股票名称</th>'+
-					        '<th>盈利率</th>'+
+					        '<th>可盈利率</th>'+
+					        '<th>最大损失</th>'+
+					        '<th>最大利润</th>'+
 					        '<th>推荐日期</th>'+
 					        '<th>K线</th>'+
 					    '</tr>'+
@@ -257,6 +260,8 @@
 	        	table += '<td>'+item.stkcode+'</td>';
 	        	table += '<td class="center">'+item.stkname+'</td>';
 	        	table += '<td class="center">'+item.percent+'</td>';
+	        	table += '<td class="center">'+item.percentMinus+'</td>';
+	        	table += '<td class="center">'+item.percentMax+'</td>';
 	        	table += '<td class="center">'+item.time+'</td>';            
 	        	table += '<td class="center"><div class="demo">' 
 	        							  + '<a  href="'+item.klineurl+item.klinefile+'" target="_blank">查看K线</a>'
@@ -276,6 +281,8 @@
 	        	table += '<td>'+item.stkcode+'</td>';
 	        	table += '<td class="center">'+item.stkname+'</td>';
 	        	table += '<td class="center">'+item.percent+'</td>';
+	        	table += '<td class="center">'+item.percentMinus+'</td>';
+	        	table += '<td class="center">'+item.percentMax+'</td>';
 	        	table += '<td class="center">'+item.time+'</td>';            
 	        	table += '<td class="center"><div class="demo">' 
 	        							  + '<a  href="'+item.klineurl+item.klinefile+'" target="_blank">查看K线</a>'
