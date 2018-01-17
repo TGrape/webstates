@@ -235,7 +235,7 @@
 					    '</tr>'+
 					'</thead>'+
 					'<tbody id="table_data_body">';
-	    $.getJSON("http://localhost:8080/WebStates/verifies?days=7", function(data) {  
+	    $.getJSON("http://localhost:8080/WebStates/verifies?days=12", function(data) {  
 	    	var header = "选股验证  "+data.countok+" / "+data.count ;
 	    	$("#header").html(header);
 	    	var percent = "选股策略比例: "+"  6LY "+data.ly6countok+"/"+data.ly6count +

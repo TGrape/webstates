@@ -40,9 +40,9 @@ public class StatesReader {
 							" and ZD_STRATEGE.scode=T_STG_REC.STGCODE "+
 						    " and T_STG_REC.stkcode=T_STOCK.stkcode "+
 //						    " and turnover3>3 and turnover6>6 "+
-//						    " and T_STG_REC.STKCODE not in (  select T_STG_REC.STKCODE from T_STG_REC   "+
-//							"						  where hit = 0 and CREATE_DATE>(select max(T_STG_REC.CREATE_DATE) from T_STG_REC)- interval '3' day  "+
-//							"								and CREATE_DATE<(select max(T_STG_REC.CREATE_DATE) from T_STG_REC)- interval '20' hour)  "+			
+						    " and T_STG_REC.STKCODE  in (  select T_STG_REC.STKCODE from T_STG_REC   "+
+							"						  where  CREATE_DATE>(select max(T_STG_REC.CREATE_DATE) from T_STG_REC)- interval '4' day  "+
+							"								and T_STG_REC.stgcode in ('FLTP' )  )"+		//,'BuyPoint','TP18'	
 							" order by T_STG_REC.stkcode,turnover3 desc,turnover6 desc,T_STG_REC.CREATE_DATE desc";
 			}else{
 				sql = "select T_STG_REC.stgcode stgcode,ZD_STRATEGE.NAME stgname,T_STG_REC.stkcode stkcode,stkname,hit,to_char(turnover3) turnover3,to_char(turnover6) turnover6,to_char(T_STG_REC.CREATE_DATE,'YYYY-MM-DD') time from T_STG_REC,T_STOCK, ZD_STRATEGE "+
@@ -137,7 +137,7 @@ public class StatesReader {
 								" select t_stg_rec.stkcode stkcode,t_stg_rec.create_date create_date,t_stock.stkname stkname,t_stg_rec.stgcode stgcode,zd_stratege.name stgname" +
 								" from t_stg_rec,t_stock,zd_stratege " +
 								" where t_stg_rec.create_date>sysdate - interval '"+days+"' day "+ 
-								"	    and t_stg_rec.create_date<sysdate- interval '1' day " +
+								"	    and t_stg_rec.create_date<sysdate- interval '4' day " +
 								" 		and t_stg_rec.hit = 1" +
 								" 		and t_stg_rec.stgcode = zd_stratege.scode" +
 								" 		and t_stg_rec.stkcode = t_stock.stkcode ) " +
@@ -339,9 +339,9 @@ public class StatesReader {
 			conn = DriverManager.getConnection(url, user, password);
 			conn.setAutoCommit(true);
 			stmt = conn.createStatement();
-			String sql = "update t_stg_rec set hit = 1 where stkcode='"+stkcode+"' and create_date > sysdate - interval '8' hour ";
+			String sql = "update t_stg_rec set hit = 1 where stkcode='"+stkcode+"' and create_date > sysdate - interval '18' hour ";
 			if(!hit)
-				sql = "update t_stg_rec set hit = 0 where stkcode='"+stkcode+"' and create_date > sysdate - interval '8' hour ";
+				sql = "update t_stg_rec set hit = 0 where stkcode='"+stkcode+"' and create_date > sysdate - interval '18' hour ";
 			stmt.execute(sql);
 			stmt.close();
 			conn.close();
